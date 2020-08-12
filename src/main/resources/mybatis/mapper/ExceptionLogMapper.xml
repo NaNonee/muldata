@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.demo.dao.ExceptionLogMapper" >
+  <resultMap id="BaseResultMap" type="com.example.demo.entity.ExceptionLog" >
+    <constructor >
+      <idArg column="exc_id" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="exc_req" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="exc_name" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="exc_message" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="oper_uid" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="oper_uname" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="oper_method" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="oper_uri" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="oper_ip" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="oper_ver" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="oper_create_time" jdbcType="DATE" javaType="java.util.Date" />
+    </constructor>
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    exc_id, exc_req, exc_name, exc_message, oper_uid, oper_uname, oper_method, oper_uri, 
+    oper_ip, oper_ver, oper_create_time
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.example.demo.entity.ExceptionLogExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from exceptionlog
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from exceptionlog
+    where exc_id = #{excId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from exceptionlog
+    where exc_id = #{excId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.example.demo.entity.ExceptionLogExample" >
+    delete from exceptionlog
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.example.demo.entity.ExceptionLog" >
+    insert into exceptionlog (exc_id, exc_req, exc_name, 
+      exc_message, oper_uid, oper_uname, 
+      oper_method, oper_uri, oper_ip, 
+      oper_ver, oper_create_time)
+    values (#{excId,jdbcType=VARCHAR}, #{excReq,jdbcType=VARCHAR}, #{excName,jdbcType=VARCHAR}, 
+      #{excMessage,jdbcType=VARCHAR}, #{operUid,jdbcType=VARCHAR}, #{operUname,jdbcType=VARCHAR}, 
+      #{operMethod,jdbcType=VARCHAR}, #{operUri,jdbcType=VARCHAR}, #{operIp,jdbcType=VARCHAR}, 
+      #{operVer,jdbcType=VARCHAR}, #{operCreateTime,jdbcType=DATE})
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.demo.entity.ExceptionLog" >
+    insert into exceptionlog
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="excId != null" >
+        exc_id,
+      </if>
+      <if test="excReq != null" >
+        exc_req,
+      </if>
+      <if test="excName != null" >
+        exc_name,
+      </if>
+      <if test="excMessage != null" >
+        exc_message,
+      </if>
+      <if test="operUid != null" >
+        oper_uid,
+      </if>
+      <if test="operUname != null" >
+        oper_uname,
+      </if>
+      <if test="operMethod != null" >
+        oper_method,
+      </if>
+      <if test="operUri != null" >
+        oper_uri,
+      </if>
+      <if test="operIp != null" >
+        oper_ip,
+      </if>
+      <if test="operVer != null" >
+        oper_ver,
+      </if>
+      <if test="operCreateTime != null" >
+        oper_create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="excId != null" >
+        #{excId,jdbcType=VARCHAR},
+      </if>
+      <if test="excReq != null" >
+        #{excReq,jdbcType=VARCHAR},
+      </if>
+      <if test="excName != null" >
+        #{excName,jdbcType=VARCHAR},
+      </if>
+      <if test="excMessage != null" >
+        #{excMessage,jdbcType=VARCHAR},
+      </if>
+      <if test="operUid != null" >
+        #{operUid,jdbcType=VARCHAR},
+      </if>
+      <if test="operUname != null" >
+        #{operUname,jdbcType=VARCHAR},
+      </if>
+      <if test="operMethod != null" >
+        #{operMethod,jdbcType=VARCHAR},
+      </if>
+      <if test="operUri != null" >
+        #{operUri,jdbcType=VARCHAR},
+      </if>
+      <if test="operIp != null" >
+        #{operIp,jdbcType=VARCHAR},
+      </if>
+      <if test="operVer != null" >
+        #{operVer,jdbcType=VARCHAR},
+      </if>
+      <if test="operCreateTime != null" >
+        #{operCreateTime,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.example.demo.entity.ExceptionLogExample" resultType="java.lang.Integer" >
+    select count(*) from exceptionlog
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update exceptionlog
+    <set >
+      <if test="record.excId != null" >
+        exc_id = #{record.excId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.excReq != null" >
+        exc_req = #{record.excReq,jdbcType=VARCHAR},
+      </if>
+      <if test="record.excName != null" >
+        exc_name = #{record.excName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.excMessage != null" >
+        exc_message = #{record.excMessage,jdbcType=VARCHAR},
+      </if>
+      <if test="record.operUid != null" >
+        oper_uid = #{record.operUid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.operUname != null" >
+        oper_uname = #{record.operUname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.operMethod != null" >
+        oper_method = #{record.operMethod,jdbcType=VARCHAR},
+      </if>
+      <if test="record.operUri != null" >
+        oper_uri = #{record.operUri,jdbcType=VARCHAR},
+      </if>
+      <if test="record.operIp != null" >
+        oper_ip = #{record.operIp,jdbcType=VARCHAR},
+      </if>
+      <if test="record.operVer != null" >
+        oper_ver = #{record.operVer,jdbcType=VARCHAR},
+      </if>
+      <if test="record.operCreateTime != null" >
+        oper_create_time = #{record.operCreateTime,jdbcType=DATE},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update exceptionlog
+    set exc_id = #{record.excId,jdbcType=VARCHAR},
+      exc_req = #{record.excReq,jdbcType=VARCHAR},
+      exc_name = #{record.excName,jdbcType=VARCHAR},
+      exc_message = #{record.excMessage,jdbcType=VARCHAR},
+      oper_uid = #{record.operUid,jdbcType=VARCHAR},
+      oper_uname = #{record.operUname,jdbcType=VARCHAR},
+      oper_method = #{record.operMethod,jdbcType=VARCHAR},
+      oper_uri = #{record.operUri,jdbcType=VARCHAR},
+      oper_ip = #{record.operIp,jdbcType=VARCHAR},
+      oper_ver = #{record.operVer,jdbcType=VARCHAR},
+      oper_create_time = #{record.operCreateTime,jdbcType=DATE}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.demo.entity.ExceptionLog" >
+    update exceptionlog
+    <set >
+      <if test="excReq != null" >
+        exc_req = #{excReq,jdbcType=VARCHAR},
+      </if>
+      <if test="excName != null" >
+        exc_name = #{excName,jdbcType=VARCHAR},
+      </if>
+      <if test="excMessage != null" >
+        exc_message = #{excMessage,jdbcType=VARCHAR},
+      </if>
+      <if test="operUid != null" >
+        oper_uid = #{operUid,jdbcType=VARCHAR},
+      </if>
+      <if test="operUname != null" >
+        oper_uname = #{operUname,jdbcType=VARCHAR},
+      </if>
+      <if test="operMethod != null" >
+        oper_method = #{operMethod,jdbcType=VARCHAR},
+      </if>
+      <if test="operUri != null" >
+        oper_uri = #{operUri,jdbcType=VARCHAR},
+      </if>
+      <if test="operIp != null" >
+        oper_ip = #{operIp,jdbcType=VARCHAR},
+      </if>
+      <if test="operVer != null" >
+        oper_ver = #{operVer,jdbcType=VARCHAR},
+      </if>
+      <if test="operCreateTime != null" >
+        oper_create_time = #{operCreateTime,jdbcType=DATE},
+      </if>
+    </set>
+    where exc_id = #{excId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.demo.entity.ExceptionLog" >
+    update exceptionlog
+    set exc_req = #{excReq,jdbcType=VARCHAR},
+      exc_name = #{excName,jdbcType=VARCHAR},
+      exc_message = #{excMessage,jdbcType=VARCHAR},
+      oper_uid = #{operUid,jdbcType=VARCHAR},
+      oper_uname = #{operUname,jdbcType=VARCHAR},
+      oper_method = #{operMethod,jdbcType=VARCHAR},
+      oper_uri = #{operUri,jdbcType=VARCHAR},
+      oper_ip = #{operIp,jdbcType=VARCHAR},
+      oper_ver = #{operVer,jdbcType=VARCHAR},
+      oper_create_time = #{operCreateTime,jdbcType=DATE}
+    where exc_id = #{excId,jdbcType=VARCHAR}
+  </update>
+</mapper>
